@@ -1,0 +1,5 @@
+*.csv
+*.ipynb
+portfoy_venv/
+__pycache__/
+main2.py
