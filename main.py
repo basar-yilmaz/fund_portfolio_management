@@ -107,7 +107,6 @@ while True:
                 -new_cost_per_share
                 + df.loc[df["Fund Code"] == fund_code, "Current Price"].values[0]
             ) * new_shares
-        
 
     elif action == "3":
         # Check if there are existing funds before decreasing shares
@@ -127,15 +126,18 @@ while True:
             update_prices(df)
 
             print("Shares decreased successfully!")
-        
 
     elif action == "4":
         # Update current prices and profits
-       
+        df = update_profits(df)
+        print("Current prices and profits updated.")
 
     elif action == "5":
         # Save the DataFrame to CSV (assuming you want to persist data)
-       
+        if not df.empty:  # Save only if there's data
+            df.to_csv(data_file, index=False)
+            print("Data saved to CSV.")
+        break
 
     else:
         print("Invalid choice. Please enter a number between 1 and 4.")
