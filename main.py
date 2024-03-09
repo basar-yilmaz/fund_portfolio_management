@@ -77,6 +77,36 @@ while True:
         df.loc[len(df)] = new_row
     elif action == "2":
         # Check if there are existing funds before adding shares
+        if df.empty:
+            print(
+                "There are no existing funds in your wallet. Please add a fund first."
+            )
+        else:
+            # Get fund code and additional shares
+            fund_code = input("Enter fund code add new shares: ")
+            cost_per_share = float(input("Enter cost per share: "))
+            shares = int(input("Enter number of shares: "))
+
+            old_cost_per_share = df.loc[
+                df["Fund Code"] == fund_code, "Cost per Share"
+            ].values[0]
+            old_shares = df.loc[df["Fund Code"] == fund_code, "Shares"].values[0]
+            new_shares = old_shares + shares
+
+            # Update cost per share
+            new_cost_per_share = (
+                old_cost_per_share * old_shares + cost_per_share * shares
+            ) / new_shares
+
+            df.loc[df["Fund Code"] == fund_code, "Cost per Share"] = new_cost_per_share
+            df.loc[df["Fund Code"] == fund_code, "Shares"] = new_shares
+            df.loc[df["Fund Code"] == fund_code, "Total Cost"] = (
+                new_cost_per_share * new_shares
+            )
+            df.loc[df["Fund Code"] == fund_code, "Profit"] = (
+                -new_cost_per_share
+                + df.loc[df["Fund Code"] == fund_code, "Current Price"].values[0]
+            ) * new_shares
         
 
     elif action == "3":
