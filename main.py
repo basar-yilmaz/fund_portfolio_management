@@ -111,6 +111,22 @@ while True:
 
     elif action == "3":
         # Check if there are existing funds before decreasing shares
+        if df.empty:
+            print("There are no existing funds in your wallet to decrease shares from.")
+        else:
+            fund_code = input("Enter fund code to decrease shares: ")
+
+            if (fund_code in df["Fund Code"].values) == False:
+                print("There is no fund with the given code")
+
+            shares = int(input("Enter number of shares to decrease: "))
+
+            df.loc[df["Fund Code"] == fund_code, "Shares"] = (
+                df.loc[df["Fund Code"] == fund_code, "Shares"].values[0] - shares
+            )
+            update_prices(df)
+
+            print("Shares decreased successfully!")
         
 
     elif action == "4":
